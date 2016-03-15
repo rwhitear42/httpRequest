@@ -1,0 +1,6 @@
+com.rwhitear.ucsdHttpRequest
+com.rwhitear.ucsdHttpRequest.constants
+com.rwhitear.ucsdHttpRequest.contentTypes
+com.rwhitear.ucsdHttpRequest.headers
+com.rwhitear.ucsdHttpRequest.socketFactories
+main

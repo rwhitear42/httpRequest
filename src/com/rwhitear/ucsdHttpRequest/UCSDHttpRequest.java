@@ -349,9 +349,11 @@ public class UCSDHttpRequest {
 	}
 
 	/**
-	 * @param contentTypeHeaders An ArrayList of HTTP Content-Type Header strings. 
+	 * 
+	 * @param contentTypeHeader An ArrayList of HTTP Content-Type Header strings. 
 	 * 
 	 * E.g. "Content-Type: application/json".
+	 * 
 	 */
 	public void setContentTypeHeaders(String contentTypeHeader) {
 		this.contentTypeHeader = contentTypeHeader;
