@@ -21,7 +21,7 @@ public class TestMain {
 		
 		request.setMethodType("POST");
 		
-		request.setBodyText("{\"data\":{\"username\":\"apiuser\",\"password\":\"C1sco123\"}}");
+		request.setBodyText("{\"data\":{\"username\":\"hacker\",\"password\":\"l3tm3In\"}}");
 		
 		request.execute();
 		
