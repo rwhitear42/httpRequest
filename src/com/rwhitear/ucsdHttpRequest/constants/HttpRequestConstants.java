@@ -20,4 +20,5 @@ public class HttpRequestConstants {
 	public static final String METHOD_TYPE_PUT = "PUT";
 	public static final String METHOD_TYPE_DELETE = "DELETE";
 	
+	
 }
