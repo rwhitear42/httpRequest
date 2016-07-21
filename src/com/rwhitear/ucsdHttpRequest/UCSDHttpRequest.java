@@ -221,111 +221,115 @@ public class UCSDHttpRequest {
 	@SuppressWarnings("deprecation")
 	public void execute() throws HttpException, IOException {
 
-		// Setup the HTTP(S) Connection.
-		HttpClient client = new HttpClient();
+		try {
+			// Setup the HTTP(S) Connection.
+			HttpClient client = new HttpClient();
 
-		if (this.protocol == "https") {
-			Protocol.registerProtocol("https", new Protocol("https", new MySSLSocketFactory(), this.port));
-		}
-
-		if (this.proxyServer != null) {
-			client.getHostConfiguration().setProxy(this.proxyServer, this.proxyPort);
-			if ((this.proxyUser != null) && (this.proxyPass != null)) {
-				HttpState state = new HttpState();
-				state.setProxyCredentials(new AuthScope(this.proxyServer, this.proxyPort),
-						new UsernamePasswordCredentials(this.proxyUser, this.proxyPass));
-				client.setState(state);
-			}
-		}
-
-		client.getHostConfiguration().setHost(this.ipAddress, this.port, this.protocol);
-
-		client.getParams().setCookiePolicy(this.cookiePolicy);
-
-		if (methodType == HttpRequestConstants.METHOD_TYPE_GET) {
-
-			GetMethod clientMethod = new GetMethod(this.uri);
-
-			clientMethod.addRequestHeader("Content-Type", this.contentTypeHeader);
-
-			for (String[] iter : this.requestHeaders) {
-
-				clientMethod.addRequestHeader(iter[0], iter[1]);
-
+			if (this.protocol == "https") {
+				Protocol.registerProtocol("https", new Protocol("https", new MySSLSocketFactory(), this.port));
 			}
 
-			client.executeMethod(clientMethod);
-
-			this.statusCode = clientMethod.getStatusCode();
-
-			this.httpResponse = clientMethod.getResponseBodyAsString();
-
-			clientMethod.releaseConnection();
-
-		} else if (methodType == HttpRequestConstants.METHOD_TYPE_POST) {
-
-			PostMethod clientMethod = new PostMethod(this.uri);
-
-			clientMethod.setRequestEntity(new StringRequestEntity(this.bodyText));
-
-			clientMethod.addRequestHeader("Content-Type", this.contentTypeHeader);
-
-			for (String[] iter : this.requestHeaders) {
-
-				clientMethod.addRequestHeader(iter[0], iter[1]);
-
+			if (this.proxyServer != null) {
+				client.getHostConfiguration().setProxy(this.proxyServer, this.proxyPort);
+				if ((this.proxyUser != null) && (this.proxyPass != null)) {
+					HttpState state = new HttpState();
+					state.setProxyCredentials(new AuthScope(this.proxyServer, this.proxyPort),
+							new UsernamePasswordCredentials(this.proxyUser, this.proxyPass));
+					client.setState(state);
+				}
 			}
 
-			client.executeMethod(clientMethod);
+			client.getHostConfiguration().setHost(this.ipAddress, this.port, this.protocol);
 
-			this.statusCode = clientMethod.getStatusCode();
+			client.getParams().setCookiePolicy(this.cookiePolicy);
 
-			this.httpResponse = clientMethod.getResponseBodyAsString();
+			if (methodType == HttpRequestConstants.METHOD_TYPE_GET) {
 
-			clientMethod.releaseConnection();
+				GetMethod clientMethod = new GetMethod(this.uri);
 
-		} else if (methodType == HttpRequestConstants.METHOD_TYPE_PUT) {
+				clientMethod.addRequestHeader("Content-Type", this.contentTypeHeader);
 
-			PutMethod clientMethod = new PutMethod(this.uri);
+				for (String[] iter : this.requestHeaders) {
 
-			clientMethod.setRequestEntity(new StringRequestEntity(this.bodyText));
+					clientMethod.addRequestHeader(iter[0], iter[1]);
 
-			clientMethod.addRequestHeader("Content-Type", this.contentTypeHeader);
+				}
 
-			for (String[] iter : this.requestHeaders) {
+				client.executeMethod(clientMethod);
 
-				clientMethod.addRequestHeader(iter[0], iter[1]);
+				this.statusCode = clientMethod.getStatusCode();
+
+				this.httpResponse = clientMethod.getResponseBodyAsString();
+
+				clientMethod.releaseConnection();
+
+			} else if (methodType == HttpRequestConstants.METHOD_TYPE_POST) {
+
+				PostMethod clientMethod = new PostMethod(this.uri);
+
+				clientMethod.setRequestEntity(new StringRequestEntity(this.bodyText));
+
+				clientMethod.addRequestHeader("Content-Type", this.contentTypeHeader);
+
+				for (String[] iter : this.requestHeaders) {
+
+					clientMethod.addRequestHeader(iter[0], iter[1]);
+
+				}
+
+				client.executeMethod(clientMethod);
+
+				this.statusCode = clientMethod.getStatusCode();
+
+				this.httpResponse = clientMethod.getResponseBodyAsString();
+
+				clientMethod.releaseConnection();
+
+			} else if (methodType == HttpRequestConstants.METHOD_TYPE_PUT) {
+
+				PutMethod clientMethod = new PutMethod(this.uri);
+
+				clientMethod.setRequestEntity(new StringRequestEntity(this.bodyText));
+
+				clientMethod.addRequestHeader("Content-Type", this.contentTypeHeader);
+
+				for (String[] iter : this.requestHeaders) {
+
+					clientMethod.addRequestHeader(iter[0], iter[1]);
+
+				}
+
+				client.executeMethod(clientMethod);
+
+				this.statusCode = clientMethod.getStatusCode();
+
+				this.httpResponse = clientMethod.getResponseBodyAsString();
+
+				clientMethod.releaseConnection();
+
+			} else if (methodType == HttpRequestConstants.METHOD_TYPE_DELETE) {
+
+				DeleteMethod clientMethod = new DeleteMethod(this.uri);
+
+				clientMethod.addRequestHeader("Content-Type", this.contentTypeHeader);
+
+				for (String[] iter : this.requestHeaders) {
+
+					clientMethod.addRequestHeader(iter[0], iter[1]);
+
+				}
+
+				client.executeMethod(clientMethod);
+
+				this.statusCode = clientMethod.getStatusCode();
+
+				this.httpResponse = clientMethod.getResponseBodyAsString();
+
+				clientMethod.releaseConnection();
 
 			}
-
-			client.executeMethod(clientMethod);
-
-			this.statusCode = clientMethod.getStatusCode();
-
-			this.httpResponse = clientMethod.getResponseBodyAsString();
-
-			clientMethod.releaseConnection();
-
-		} else if (methodType == HttpRequestConstants.METHOD_TYPE_DELETE) {
-
-			DeleteMethod clientMethod = new DeleteMethod(this.uri);
-
-			clientMethod.addRequestHeader("Content-Type", this.contentTypeHeader);
-
-			for (String[] iter : this.requestHeaders) {
-
-				clientMethod.addRequestHeader(iter[0], iter[1]);
-
-			}
-
-			client.executeMethod(clientMethod);
-
-			this.statusCode = clientMethod.getStatusCode();
-
-			this.httpResponse = clientMethod.getResponseBodyAsString();
-
-			clientMethod.releaseConnection();
-
+		} finally {
+			Protocol.unregisterProtocol("https");
 		}
 
 	}
